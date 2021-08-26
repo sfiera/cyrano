@@ -301,12 +301,27 @@ var options = {
   person : people,
 };
 
+var links = {
+  person : "http://www.cytheraguides.com/cast/#",
+};
+
 var randomize = function() {
   for (const [category, choices] of Object.entries(options)) {
+    var link = links[category];
     var els = document.getElementsByClassName(category);
     Array.prototype.forEach.call(els, (el) => {
       var selection = choices[Math.floor(choices.length * Math.random())];
-      el.innerText = selection;
+      el.innerHTML = "";
+      if (typeof link !== "undefined") {
+        var a = document.createElement("a");
+        a.href = link + selection;
+        a.innerText = selection;
+        a.target = "_blank";
+        a.rel = "noopener";
+        el.appendChild(a);
+      } else {
+        el.innerText = selection;
+      }
     });
   }
 };
